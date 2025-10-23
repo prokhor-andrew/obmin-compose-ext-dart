@@ -1,0 +1,21 @@
+name: obmin_compose_ext
+description: A library with composition extensions for basic Obmin types
+version: 0.1.0
+
+homepage: https://github.com/prokhor-andrew/obmin-compose-ext-dart.git
+repository: https://github.com/prokhor-andrew/obmin-compose-ext-dart.git
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  obmin:
+    git:
+      url: https://github.com/prokhor-andrew/obmin-dart.git
+      ref: main
+
+  fast_immutable_collections: ^11.0.4
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6
