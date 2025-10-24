@@ -24,6 +24,16 @@ extension IMapOpticExtension<Key, S, A> on Optic<S, IMap<Key, A>> {
       }),
     );
   }
+
+  Optic<S, A> where(Func<A, bool> predicate) {
+    return then<A>(
+      Optic.fromRun<IMap<Key, A>, A>((update) {
+        return (whole) {
+          return whole.where((k, v) => predicate(v)).map((k, v) => MapEntry(k, update(v)));
+        };
+      }),
+    );
+  }
 }
 
 extension IMapPathArrowExtension<Key, Whole, A> on PathArrow<String, Whole, IMap<Key, A>> {
@@ -44,6 +54,11 @@ extension IMapPathArrowExtension<Key, Whole, A> on PathArrow<String, Whole, IMap
         return Path.fromKeyValue(key.toString(), element);
       }),
     );
+  }
+
+
+  PathArrow<String, Whole, A> where(Func<A, bool> predicate) {
+    return rmap((map) =>  map.where((k, v) => predicate(v))).then<A>(_dictEachPathArrow<Key, A>());
   }
 }
 

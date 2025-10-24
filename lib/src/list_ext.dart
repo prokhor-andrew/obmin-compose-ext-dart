@@ -25,6 +25,16 @@ extension IListOpticExtension<S, A> on Optic<S, IList<A>> {
       }),
     );
   }
+
+  Optic<S, A> where(Func<A, bool> predicate) {
+    return then<A>(
+      Optic.fromRun<IList<A>, A>((update) {
+        return (whole) {
+          return whole.where(predicate).toIList().map(update).toIList();
+        };
+      }),
+    );
+  }
 }
 
 extension IListPathArrowExtension<Whole, A> on PathArrow<String, Whole, IList<A>> {
@@ -43,6 +53,10 @@ extension IListPathArrowExtension<Whole, A> on PathArrow<String, Whole, IList<A>
         return Path.fromKeyValue("$index", list[index]);
       }),
     );
+  }
+
+  PathArrow<String, Whole, A> where(Func<A, bool> predicate) {
+    return rmap((list) => list.where(predicate).toIList()).then<A>(_listEachPathArrow<A>());
   }
 }
 
